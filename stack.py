@@ -7,6 +7,19 @@ import re
 class StackOperation:
     def doAdd( self, stack ):
         stack.append( int(stack.pop()) + int(stack.pop()))
+    
+    def doSubtract( self, stack):
+        temp = int(stack.pop())
+        stack.append( int(stack.pop()) - temp)
+    
+    def doMultiply( self, stack):
+        stack.append( int(stack.pop()) * int(stack.pop()))
+
+    def doDivide( self, stack):
+        temp = int(stack.pop())
+        stack.append( int(stack.pop()) / temp)
+
+
 
 so = StackOperation()
 
@@ -25,13 +38,11 @@ for element in myarray:
     elif( element == "+" ): 
         so.doAdd( stack)
     elif( element == "-" ):
-        temp = int(stack.pop())
-        stack.append( stack.pop() - temp )
+        so.doSubtract( stack)
     elif( element == "*" ):
-        stack.append( int(stack.pop()) * int(stack.pop()) )
+        so.doMultiply( stack)
     elif( element == "/" ):
-        temp = int(stack.pop())
-        stack.append( int(stack.pop()) / temp )
+        so.doDivide( stack)
     else:
         print "Unknown word: " + element
         break
