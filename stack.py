@@ -19,6 +19,8 @@ class StackOperation:
         temp = int(stack.pop())
         stack.append( int(stack.pop()) / temp)
 
+    def doPop( self, stack):
+        print int(stack.pop())
 
 
 so = StackOperation()
@@ -43,6 +45,8 @@ for element in myarray:
         so.doMultiply( stack)
     elif( element == "/" ):
         so.doDivide( stack)
+    elif( element == "." ):
+        so.doPop( stack)
     else:
         print "Unknown word: " + element
         break
