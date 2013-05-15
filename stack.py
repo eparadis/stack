@@ -22,6 +22,11 @@ class StackOperation:
     def doPop( self, stack):
         print int(stack.pop())
 
+    def doDuplicate( self, stack):
+        temp = int(stack.pop())
+        stack.append( temp)
+        stack.append( temp)
+
 
 so = StackOperation()
 
@@ -47,6 +52,8 @@ for element in myarray:
         so.doDivide( stack)
     elif( element == "." ):
         so.doPop( stack)
+    elif( element == "dup" ):
+        so.doDuplicate( stack)
     else:
         print "Unknown word: " + element
         break
