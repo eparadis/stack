@@ -20,7 +20,7 @@ class StackOperation:
         stack.append( int(stack.pop()) / temp)
 
     def doPop( self, stack):
-        print int(stack.pop())
+        print int(stack.pop()),
 
     def doDuplicate( self, stack):
         temp = int(stack.pop())
@@ -53,7 +53,7 @@ so = StackOperation()
 
 # get a string
 #user_input = raw_input( '> ') 
-user_input = "10 begin 1 - dup . ?0 until"
+user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
 
 # split it into an array
 myarray = user_input.split()
@@ -95,5 +95,6 @@ while PC < len(myarray):
         break
     PC += 1
 
-print dataStack
-
+print "done"
+print "Data Stack: ", dataStack
+print "Command Stack: ", cmdStack
