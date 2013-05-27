@@ -118,3 +118,4 @@ while PC < len(myarray):
 print "done"
 print "Data Stack: ", dataStack
 print "Command Stack: ", cmdStack
+print "Dicitonary: ", mapping.keys()
