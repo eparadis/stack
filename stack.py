@@ -27,6 +27,9 @@ def doDuplicate( dstack, cstack, pc):
     dstack.append( temp)
     dstack.append( temp)
 
+def doDrop( dstack, cstack, pc):
+    dstack.pop()
+
 def doUntil( data, cmd, pc):
     temp = int(data.pop() )
     if temp != 0:
@@ -52,7 +55,7 @@ def doTestZero( dstack, cstack, pc):
 # get a string
 #user_input = raw_input( '> ') 
 #user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
-user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until . ?0 until"
+user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop ?0 until drop"
 
 # split it into an array
 myarray = user_input.split()
@@ -62,7 +65,7 @@ cmdStack = []
 
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
-    'peek': 'dup .'}
+    'peek': 'dup .', 'drop': doDrop}
 
 
 # elements into the array as either integers or strings
