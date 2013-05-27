@@ -68,7 +68,8 @@ def doTestZero( dstack, cstack, pc):
 # get a string
 #user_input = raw_input( '> ') 
 #user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
-user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop endl ?0 until drop"
+#user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop endl ?0 until drop"
+user_input = "1 peek : inc 1 + ; inc peek inc peek inc ."  # should output "1 2 3 4" with empty stacks
 
 # split it into an array
 myarray = user_input.split()
@@ -99,6 +100,17 @@ while PC < len(myarray):
         else:
             print "Unhandled definition type for word '", element, "'"
             PC += 1 # skip the unhandled definition type
+    elif element == ':':
+        defStart = PC
+        newWord = myarray[PC+1] # let's hope its valid...
+        newDef = []
+        defPtr = PC+2 # the first word in the definition body
+        while myarray[defPtr] != ';':
+            newDef.append(myarray[defPtr])
+            defPtr += 1
+        mapping[newWord] = ' '.join(newDef)
+        #print "DEBUG: new def! ->" + newWord + "<--->" + str(newDef)
+        PC = defPtr + 1
     else:
         print "Unknown word: " + element
         break
