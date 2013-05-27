@@ -3,63 +3,67 @@
 # converted to python and extended by ERP May 2013
 
 import re
+import types
 
-class StackOperation:
-    def doAdd( self, stack ):
-        stack.append( int(stack.pop()) + int(stack.pop()))
+def doAdd( dstack, cstack, pc ):
+    dstack.append( int(dstack.pop()) + int(dstack.pop()))
     
-    def doSubtract( self, stack):
-        temp = int(stack.pop())
-        stack.append( int(stack.pop()) - temp)
+def doSubtract( dstack, cstack, pc):
+    temp = int(dstack.pop())
+    dstack.append( int(dstack.pop()) - temp)
     
-    def doMultiply( self, stack):
-        stack.append( int(stack.pop()) * int(stack.pop()))
+def doMultiply( dstack, cstack, pc):
+    dstack.append( int(dstack.pop()) * int(dstack.pop()))
 
-    def doDivide( self, stack):
-        temp = int(stack.pop())
-        stack.append( int(stack.pop()) / temp)
+def doDivide( dstack, cstack, pc):
+    temp = int(dstack.pop())
+    dstack.append( int(dstack.pop()) / temp)
 
-    def doPop( self, stack):
-        print int(stack.pop()),
+def doPop( dstack, cstack, pc):
+    print int(dstack.pop()),
 
-    def doDuplicate( self, stack):
-        temp = int(stack.pop())
-        stack.append( temp)
-        stack.append( temp)
+def doDuplicate( dstack, cstack, pc):
+    temp = int(dstack.pop())
+    dstack.append( temp)
+    dstack.append( temp)
 
-    def doUntil( self, data, cmd):
-        temp = int(data.pop() )
-        if temp != 0:
-            # end the loop
-            cmd.pop()
-            return -1
-        else:
-            # go back to the latest 'begin'
-            return cmd.pop()
+def doUntil( data, cmd, pc):
+    temp = int(data.pop() )
+    if temp != 0:
+        # end the loop
+        cmd.pop()
+        return -1
+    else:
+        # go back to the latest 'begin'
+        return cmd.pop()
 
-    def startLoop( self, cmd, index):
-        # mark the beginning of a loop
-        cmd.append( index)
+def startLoop( data, cmd, index):
+    # mark the beginning of a loop
+    cmd.append( index)
 
-    def doTestZero( self, stack):
-        temp = int( stack.pop() )
-        stack.append( temp) # we leave the tested value on the stack
-        if temp == 0:
-            stack.append( 1)
-        else:
-            stack.append( 0)
-
-so = StackOperation()
+def doTestZero( dstack, cstack, pc):
+    temp = int( dstack.pop() )
+    dstack.append( temp) # we leave the tested value on the stack
+    if temp == 0:
+        dstack.append( 1)
+    else:
+        dstack.append( 0)
 
 # get a string
 #user_input = raw_input( '> ') 
-user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
+#user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
+user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until . ?0 until"
 
 # split it into an array
 myarray = user_input.split()
 
 dataStack = []
 cmdStack = []
+
+mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
+    '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
+    'peek': 'dup .'}
+
 
 # elements into the array as either integers or strings
 PC = 0
@@ -68,32 +72,28 @@ while PC < len(myarray):
     element = myarray[PC]
     if( re.compile(r"^[0123456789]+").search(element) ):
         dataStack.append( int(element) )   
-    elif( element == "+" ): 
-        so.doAdd( dataStack)
-    elif( element == "-" ):
-        so.doSubtract( dataStack)
-    elif( element == "*" ):
-        so.doMultiply( dataStack)
-    elif( element == "/" ):
-        so.doDivide( dataStack)
-    elif( element == "." ):
-        so.doPop( dataStack)
-    elif( element == "dup" ):
-        so.doDuplicate( dataStack)
-    elif( element == 'begin' ):
-        so.startLoop( cmdStack, PC)
+        PC += 1
     elif( element == 'until' ):
-        ret = so.doUntil( dataStack, cmdStack)
+        ret = doUntil( dataStack, cmdStack, PC)
         if ret != -1:
             PC = ret
             continue
         # otherwise just increment PC like usual
-    elif( element == '?0' ):
-        so.doTestZero( dataStack)
+        PC += 1
+    elif element in mapping.keys():
+        if type(mapping[element]) is types.FunctionType:
+            mapping[element](dataStack, cmdStack, PC)
+            PC += 1
+        elif type(mapping[element]) is str:
+            #print "DEBUG: expandng word", element
+            myarray[PC:PC+1] = mapping[element].split()
+            # don't change PC because we need to reparse whatever we just inserted
+        else:
+            print "Unhandled definition type for word '", element, "'"
+            PC += 1 # skip the unhandled definition type
     else:
         print "Unknown word: " + element
         break
-    PC += 1
 
 print "done"
 print "Data Stack: ", dataStack
