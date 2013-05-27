@@ -78,7 +78,7 @@ cmdStack = []
 
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
-    'peek': 'dup .', 'drop': doDrop, 'endl': doEndline}
+    'peek': 'dup .', 'drop': doDrop, 'endl': doEndline, 'until': doUntil }
 
 
 # elements into the array as either integers or strings
@@ -89,8 +89,6 @@ while PC < len(myarray):
     if( re.compile(r"^[0123456789]+").search(element) ):
         dataStack.append( int(element) )   
         PC += 1
-    elif( element == 'until' ):
-        PC = doUntil( dataStack, cmdStack, PC)
     elif element in mapping.keys():
         if type(mapping[element]) is types.FunctionType:
             PC = mapping[element](dataStack, cmdStack, PC)
