@@ -7,35 +7,46 @@ import types
 
 def doAdd( dstack, cstack, pc ):
     dstack.append( int(dstack.pop()) + int(dstack.pop()))
-    
+    return pc+1
+
 def doSubtract( dstack, cstack, pc):
     temp = int(dstack.pop())
     dstack.append( int(dstack.pop()) - temp)
-    
+    return pc+1
+
 def doMultiply( dstack, cstack, pc):
     dstack.append( int(dstack.pop()) * int(dstack.pop()))
+    return pc+1
 
 def doDivide( dstack, cstack, pc):
     temp = int(dstack.pop())
     dstack.append( int(dstack.pop()) / temp)
+    pc+1
 
 def doPop( dstack, cstack, pc):
     print int(dstack.pop()),
+    return pc+1
 
 def doDuplicate( dstack, cstack, pc):
     temp = int(dstack.pop())
     dstack.append( temp)
     dstack.append( temp)
+    return pc+1
 
 def doDrop( dstack, cstack, pc):
     dstack.pop()
+    return pc+1
+
+def doEndline( dstack, cstack, pc):
+    print
+    return pc+1
 
 def doUntil( data, cmd, pc):
     temp = int(data.pop() )
     if temp != 0:
         # end the loop
         cmd.pop()
-        return -1
+        return pc+1
     else:
         # go back to the latest 'begin'
         return cmd.pop()
@@ -43,6 +54,7 @@ def doUntil( data, cmd, pc):
 def startLoop( data, cmd, index):
     # mark the beginning of a loop
     cmd.append( index)
+    return index+1
 
 def doTestZero( dstack, cstack, pc):
     temp = int( dstack.pop() )
@@ -51,11 +63,12 @@ def doTestZero( dstack, cstack, pc):
         dstack.append( 1)
     else:
         dstack.append( 0)
+    return pc+1
 
 # get a string
 #user_input = raw_input( '> ') 
 #user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
-user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop ?0 until drop"
+user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop endl ?0 until drop"
 
 # split it into an array
 myarray = user_input.split()
@@ -65,7 +78,7 @@ cmdStack = []
 
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
-    'peek': 'dup .', 'drop': doDrop}
+    'peek': 'dup .', 'drop': doDrop, 'endl': doEndline}
 
 
 # elements into the array as either integers or strings
@@ -77,16 +90,10 @@ while PC < len(myarray):
         dataStack.append( int(element) )   
         PC += 1
     elif( element == 'until' ):
-        ret = doUntil( dataStack, cmdStack, PC)
-        if ret != -1:
-            PC = ret
-            continue
-        # otherwise just increment PC like usual
-        PC += 1
+        PC = doUntil( dataStack, cmdStack, PC)
     elif element in mapping.keys():
         if type(mapping[element]) is types.FunctionType:
-            mapping[element](dataStack, cmdStack, PC)
-            PC += 1
+            PC = mapping[element](dataStack, cmdStack, PC)
         elif type(mapping[element]) is str:
             #print "DEBUG: expandng word", element
             myarray[PC:PC+1] = mapping[element].split()
