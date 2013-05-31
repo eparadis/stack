@@ -4,6 +4,7 @@
 
 import re
 import types
+import sys
 
 def doAdd( dstack, cstack, pc ):
     dstack.append( int(dstack.pop()) + int(dstack.pop()))
@@ -69,10 +70,17 @@ def doTestZero( dstack, cstack, pc):
 #user_input = raw_input( '> ') 
 #user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
 #user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop endl ?0 until drop"
-user_input = "1 peek : inc 1 + ; inc peek inc peek inc ."  # should output "1 2 3 4" with empty stacks
+#user_input = "1 peek : inc 1 + ; inc peek inc peek inc ."  # should output "1 2 3 4" with empty stacks
 
 # split it into an array
-myarray = user_input.split()
+#myarray = user_input.split()
+
+#if an argument was given, treat it like a source file and parse it
+if len(sys.argv) > 1:
+    f = open(sys.argv[1], 'r')
+    myarray = f.read().split()
+else:
+    myarray = []
 
 dataStack = []
 cmdStack = []
