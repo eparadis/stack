@@ -1,0 +1,51 @@
+
+1 jmp 0 1 . endl
+1 1 - jz 
+
+: gosub pc pushcs ;
+: return pc popcs ;
+: jrel pc + pushpc poppc ;
+1 jrel skipped target
+
+: skip 4 pc + popDS2pc ; asdf qwert
+  0    1 2  3 4          5    6
+skip nop target
+
+val_A   val_B 
+                comparison 
+                            if body body body fi
+
+if true_code else false_code fi
+
+
+fi          # push PC to CS 
+true_code   # skip this?
+else        # push PC to CS
+false code  # skip this?
+if          # push PC to CS, 
+            # pop stack 
+            # if true, 'fi' location to top of CS and pop to PC
+
+enforce mandantory single statement positive and negative blocks
+valA valB conditional if true_branch else false_branch
+thus, 'if' can calculate where to jump easily. 'else' becomes an unconditional one instruction jump
+    problem: after parsing the statement once, a branch will be expanded, fouling the jump calc
+
+OR
+new words could be defined by using jump points
+word word word : new_word def1 def2 def3 ; word word new_word word
+ definition of new word stores pointer to def1 ( new_word_dict[new_word] = addr(def1) )
+ when new_word is encountered in use, push PC onto control stack, PC = n_w_d[new_word]
+ when ';' is encountered, pop CS to PC
+
+this could let you do something like this
+valA valB conditional if : true_branch def1 def2 ; true_branch else : false_branch x y z ; false_branch fi
+ problem: again, we'd have to precalculate PC jumps, but these could be scanned when encountering an 'if'
+
+it seems like the fundamental operations here are
+ push a value onto the control stack  (from where?)
+ get the value of the PC (and put it where?)
+ soem sort of conditional around the top of the control stack
+ parsing up through the program to match a word (like ; then else fi etc)
+
+
