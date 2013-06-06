@@ -131,6 +131,25 @@ while PC < len(myarray):
         PC = defPtr + 1
     elif element == ';':
         PC = int(cmdStack.pop())    # this is the same as 'until' isn't it?
+    elif element == 'if':
+        temp = dataStack.pop()
+        if temp != 0:
+            PC += 1
+        else:
+            # skip over the true block until you find an 'else', and set PC to the instruction after the 'else'
+            ptr = PC
+            while myarray[ptr] != 'else':
+                ptr += 1
+            PC = ptr + 1
+    elif element == 'else':
+        # skip over the false block until you find a 'fi', and set PC to inst after that
+        ptr = PC
+        while myarray[ptr] != 'fi':
+            ptr += 1
+        PC = ptr + 1
+    elif element == 'fi':
+        # we'll encounter this after doing the false block, so just ignore it
+        PC += 1
     else:
         print "Unknown word: " + element
         break

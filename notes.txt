@@ -49,3 +49,11 @@ it seems like the fundamental operations here are
  parsing up through the program to match a word (like ; then else fi etc)
 
 
+
+TODO:
+ x impliment new word definitions by jumping to the actual definition 
+ x impliment 'if' without 'else'
+ x add 'else/fi'
+ - write some more test cases, like calculating pi or something
+
+
