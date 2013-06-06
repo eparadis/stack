@@ -66,6 +66,11 @@ def doTestZero( dstack, cstack, pc):
         dstack.append( 0)
     return pc+1
 
+def doPeek( ds, cs, pc):
+    doDuplicate( ds, cs, pc)
+    doPop(ds, cs, pc)
+    return pc+1
+
 # get a string
 #user_input = raw_input( '> ') 
 #user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
@@ -87,7 +92,7 @@ cmdStack = []
 
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
-    'peek': 'dup .', 'drop': doDrop, 'endl': doEndline, 'until': doUntil }
+    'drop': doDrop, 'endl': doEndline, 'until': doUntil, 'peek': doPeek }
 
 
 # elements into the array as either integers or strings
@@ -103,8 +108,11 @@ while PC < len(myarray):
             PC = mapping[element](dataStack, cmdStack, PC)
         elif type(mapping[element]) is str:
             #print "DEBUG: expandng word", element
-            myarray[PC:PC+1] = mapping[element].split()
-            # don't change PC because we need to reparse whatever we just inserted
+            #myarray[PC:PC+1] = mapping[element].split()
+            (addr, inst) = mapping[element].split()
+            if inst == 'jmp':
+                cmdStack.append(PC+1)
+                PC = int(addr)
         else:
             print "Unhandled definition type for word '", element, "'"
             PC += 1 # skip the unhandled definition type
@@ -114,11 +122,15 @@ while PC < len(myarray):
         newDef = []
         defPtr = PC+2 # the first word in the definition body
         while myarray[defPtr] != ';':
-            newDef.append(myarray[defPtr])
+            #newDef.append(myarray[defPtr])
             defPtr += 1
+        newDef.append(str(defStart+2))
+        newDef.append("jmp")
         mapping[newWord] = ' '.join(newDef)
         #print "DEBUG: new def! ->" + newWord + "<--->" + str(newDef)
         PC = defPtr + 1
+    elif element == ';':
+        PC = int(cmdStack.pop())    # this is the same as 'until' isn't it?
     else:
         print "Unknown word: " + element
         break
