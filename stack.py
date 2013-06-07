@@ -71,14 +71,27 @@ def doPeek( ds, cs, pc):
     doPop(ds, cs, pc)
     return pc+1
 
-# get a string
-#user_input = raw_input( '> ') 
-#user_input = "10 begin 1 - dup . 4 begin 1 - dup . ?0 until . ?0 until"
-#user_input = "10 begin 1 - peek 4 begin 1 - peek ?0 until drop endl ?0 until drop"
-#user_input = "1 peek : inc 1 + ; inc peek inc peek inc ."  # should output "1 2 3 4" with empty stacks
+def doRotate( ds, cs, pc):
+    # c b a -- b a c
+    a = int(ds.pop())
+    b = int(ds.pop())
+    c = int(ds.pop())
+    ds.append(b)
+    ds.append(a)
+    ds.append(c)
+    return pc+1
 
-# split it into an array
-#myarray = user_input.split()
+def doSwap( ds, cs, pc):
+    a = int(ds.pop())
+    b = int(ds.pop())
+    ds.append(a)
+    ds.append(b)
+    return pc+1
+
+def doOver( ds, cs, pc):
+    temp = int(ds[-2])
+    ds.append( temp)
+    return pc+1
 
 #if an argument was given, treat it like a source file and parse it
 if len(sys.argv) > 1:
@@ -92,7 +105,8 @@ cmdStack = []
 
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
-    'drop': doDrop, 'endl': doEndline, 'until': doUntil, 'peek': doPeek }
+    'drop': doDrop, 'endl': doEndline, 'until': doUntil, 'peek': doPeek,    \
+    'rot': doRotate, 'swap': doSwap, 'over': doOver }
 
 
 # elements into the array as either integers or strings
