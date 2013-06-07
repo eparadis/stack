@@ -54,6 +54,13 @@ TODO:
  x impliment new word definitions by jumping to the actual definition 
  x impliment 'if' without 'else'
  x add 'else/fi'
- - write some more test cases, like calculating pi or something
+ x write some more test cases, like calculating pi or something
+ - add some way to add comments... perhaps like Forth's "(" and ")"
+ - file I/O would be good, especially if it could be later adapted to digital port I/O
+ - add a standard library of definitions to load on startup
+ - fix dumb parsing bugs (negative number literals, words like '2dup')
+ - should if leave something on the data stack?
+
+
 
 
