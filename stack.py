@@ -59,7 +59,7 @@ def startLoop( data, cmd, index):
 
 def doTestZero( dstack, cstack, pc):
     temp = int( dstack.pop() )
-    dstack.append( temp) # we leave the tested value on the stack
+    #dstack.append( temp) # we leave the tested value on the stack
     if temp == 0:
         dstack.append( 1)
     else:
@@ -169,6 +169,8 @@ while PC < len(myarray):
         break
 
 print "done"
-print "Data Stack: ", dataStack
-print "Command Stack: ", cmdStack
-print "Dicitonary: ", mapping.keys()
+if len(dataStack) > 0:
+    print "Data Stack: ", dataStack
+if len(cmdStack) > 0:
+    print "Command Stack: ", cmdStack
+#print "Dicitonary: ", mapping.keys()

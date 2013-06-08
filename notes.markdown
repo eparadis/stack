@@ -6,16 +6,16 @@
 + impliment 'if' without 'else'
 + add 'else/fi'
 + write some more test cases, like calculating pi or something
+- should 'if' leave something on the data stack -- no, and it turned out to be ?0
 ## TODO
-- add some way to add comments... perhaps like Forths '(' and ')'
+- add some way to add inline comments... perhaps like Forths '(' and ')'
+- non-parsed comments in .st files! (simply ignore in initial file load)
 - file I/O would be good, especially if it could be later adapted to digital port I/O
-- add a standard library of definitions to load on startup
+- add a standard library of definitions to load on startup, or a way to source outside files
 - fix dumb parsing bugs (negative number literals, words like '2dup')
-- should 'if' leave something on the data stack?
 - anonymous words aka blocks (what use case does this make easier?)
-- proper test cases; build something to examine/compare the DS and CS with test outputs
-- comments in .st files! (simply ignore in initial file load)
-
+- proper test cases: stack.py honors special comment line that specifies expected resultant data stack
+- impliment direct PC and CmdStack manipulation, the rewrite everything to use those primatives
 
 ## Possible syntax for jumps:
 1 jmp 0 1 . endl
