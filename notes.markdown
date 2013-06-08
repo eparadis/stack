@@ -1,0 +1,55 @@
+# Notes on this crazy language
+"I swear it isn't Forth" (tm)
+
+## TODONE
++ impliment new word definitions by jumping to the actual definition 
++ impliment 'if' without 'else'
++ add 'else/fi'
++ write some more test cases, like calculating pi or something
+## TODO
+- add some way to add comments... perhaps like Forths '(' and ')'
+- file I/O would be good, especially if it could be later adapted to digital port I/O
+- add a standard library of definitions to load on startup
+- fix dumb parsing bugs (negative number literals, words like '2dup')
+- should 'if' leave something on the data stack?
+- anonymous words aka blocks (what use case does this make easier?)
+- proper test cases; build something to examine/compare the DS and CS with test outputs
+- comments in .st files! (simply ignore in initial file load)
+
+
+## Possible syntax for jumps:
+1 jmp 0 1 . endl
+1 1 - jz 
+
+: gosub pc pushcs ;
+: return pc popcs ;
+: jrel pc + pushpc poppc ;
+1 jrel skipped target
+
+: skip 4 pc + popDS2pc ; asdf qwert
+  0    1 2  3 4          5    6
+skip nop target
+
+
+## Brainstorming conditional syntax
+### a lot of stuff is left on the stack (unlike Forth ... )
+    valA valB                                                ( -- A B )
+              comparison                                     ( A B -- A B BOOL)
+                         if true_block else false_block fi   ( A B BOOL -- A B IF_RESULT )
+
+new words could be defined by using jump points
+'word word word : newWord def1 def2 def3 ; word word newWord word'
+- definition of new word stores pointer to def1 ( 'newWordDict[newWord] = addr(def1)' )
+- when neWord is encountered in use, push PC onto control stack, 'PC = NWD[newWord]'
+- when ';' is encountered, pop CS to PC
+
+## Fundamental/atomic operations for control
+it seems like the fundamental operations here are
+- push a value onto the control stack  (from where?)
+- get the value of the PC (and put it where?)
+- soem sort of conditional around the top of the control stack
+- parsing up through the program to match a word (like ; then else fi etc)
+
+
+
+
