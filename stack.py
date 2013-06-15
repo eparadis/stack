@@ -96,7 +96,11 @@ def doOver( ds, cs, pc):
 #if an argument was given, treat it like a source file and parse it
 if len(sys.argv) > 1:
     f = open(sys.argv[1], 'r')
-    myarray = f.read().split()
+    res = ""
+    for line in f.readlines():
+        if line[0] != '#':
+            res += line
+    myarray = res.split()
 else:
     myarray = []
 

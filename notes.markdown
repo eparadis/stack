@@ -6,10 +6,10 @@
 + impliment 'if' without 'else'
 + add 'else/fi'
 + write some more test cases, like calculating pi or something
-- should 'if' leave something on the data stack -- no, and it turned out to be ?0
++ should 'if' leave something on the data stack -- no, and it turned out to be ?0
++ add some way to add inline comments: first char of line is '#'
++ non-parsed comments in .st files! (simply ignore in initial file load)
 ## TODO
-- add some way to add inline comments... perhaps like Forths '(' and ')'
-- non-parsed comments in .st files! (simply ignore in initial file load)
 - file I/O would be good, especially if it could be later adapted to digital port I/O
 - add a standard library of definitions to load on startup, or a way to source outside files
 - fix dumb parsing bugs (negative number literals, words like '2dup')
