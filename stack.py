@@ -94,15 +94,15 @@ def doOver( ds, cs, pc):
     return pc+1
 
 #if an argument was given, treat it like a source file and parse it
+myarray = []
 if len(sys.argv) > 1:
-    f = open(sys.argv[1], 'r')
-    res = ""
-    for line in f.readlines():
-        if line[0] != '#':
-            res += line
-    myarray = res.split()
-else:
-    myarray = []
+    for infile in sys.argv[1:]:
+        f = open(infile, 'r')
+        res = ""
+        for line in f.readlines():
+            if line[0] != '#':
+                res += line
+        myarray += res.split()
 
 dataStack = []
 cmdStack = []

@@ -9,6 +9,7 @@
 + should 'if' leave something on the data stack -- no, and it turned out to be ?0
 + add some way to add inline comments: first char of line is '#'
 + non-parsed comments in .st files! (simply ignore in initial file load)
++ parse several files passed as command line arguments
 ## TODO
 - file I/O would be good, especially if it could be later adapted to digital port I/O
 - add a standard library of definitions to load on startup, or a way to source outside files
