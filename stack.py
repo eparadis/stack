@@ -22,7 +22,7 @@ def doMultiply( dstack, cstack, pc):
 def doDivide( dstack, cstack, pc):
     temp = int(dstack.pop())
     dstack.append( int(dstack.pop()) / temp)
-    pc+1
+    return pc+1
 
 def doPop( dstack, cstack, pc):
     print int(dstack.pop()),
@@ -93,6 +93,13 @@ def doOver( ds, cs, pc):
     ds.append( temp)
     return pc+1
 
+def doWrite( ds, cs, pc):
+    data = int(ds.pop())
+    port = int(ds.pop())
+    print "<{0:#x}:{1:08b}>".format(port, data)
+    #print "<", hex(port), ":", bin(data), ">"
+    return pc+1
+
 #if an argument was given, treat it like a source file and parse it
 myarray = []
 if len(sys.argv) > 1:
@@ -110,7 +117,7 @@ cmdStack = []
 mapping = {'+': doAdd, '-': doSubtract, '*': doMultiply, '/': doDivide,     \
     '.': doPop, 'dup': doDuplicate, 'begin': startLoop, '?0': doTestZero,   \
     'drop': doDrop, 'endl': doEndline, 'until': doUntil, 'peek': doPeek,    \
-    'rot': doRotate, 'swap': doSwap, 'over': doOver }
+    'rot': doRotate, 'swap': doSwap, 'over': doOver, 'write': doWrite }
 
 
 # elements into the array as either integers or strings
