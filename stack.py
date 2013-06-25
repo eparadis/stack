@@ -102,14 +102,29 @@ def doWrite( ds, cs, pc):
 
 #if an argument was given, treat it like a source file and parse it
 myarray = []
-if len(sys.argv) > 1:
-    for infile in sys.argv[1:]:
+includeFiles = sys.argv[1:]
+
+#first scan through everything picking up #includes
+if len(includeFiles) >= 1:
+    for infile in includeFiles:
+        f = open(infile, 'r')
+        for line in f.readlines():
+            if line[0:8] == '#include':
+                includeFiles.append( line.split()[1])
+
+
+# then parse through all the included files in reverse order to pick up definitions in the right way
+includeFiles.reverse()
+print "includeFiles is ", includeFiles
+if len(includeFiles) >= 1:
+    for infile in includeFiles:
         f = open(infile, 'r')
         res = ""
         for line in f.readlines():
             if line[0] != '#':
                 res += line
         myarray += res.split()
+
 
 dataStack = []
 cmdStack = []

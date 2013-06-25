@@ -11,8 +11,8 @@
 + non-parsed comments in .st files! (simply ignore in initial file load)
 + parse several files passed as command line arguments
 + write command which could write to file handles or digital port
++ source files with "#include whatever.st" but watch out; the order in which the get included can be non-obvious...
 ## TODO
-- add a standard library of definitions to load on startup, or a way to source outside files
 - fix dumb parsing bugs (negative number literals, words like '2dup')
 - anonymous words aka blocks (what use case does this make easier?)
 - proper test cases: stack.py honors special comment line that specifies expected resultant data stack
