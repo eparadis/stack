@@ -17,6 +17,9 @@
 - anonymous words aka blocks (what use case does this make easier?)
 - proper test cases: stack.py honors special comment line that specifies expected resultant data stack
 - impliment direct PC and CmdStack manipulation, the rewrite everything to use those primatives
+- data input analog to 'write'
+- come up with a way to do interrupts and multitasking ('IRQ' and 'yield' special words?)
+- create the idea of a thread, with its own stack contexts
 
 ## Possible syntax for jumps:
 1 jmp 0 1 . endl
@@ -51,6 +54,14 @@ it seems like the fundamental operations here are
 - soem sort of conditional around the top of the control stack
 - parsing up through the program to match a word (like ; then else fi etc)
 
+## uses for threading
+- poll a keyboard for keypresses
+- perform routine tasks on a given time period, such as sampling a thermometer
+how do these threads share data?
+are the threads pre-emptive?
 
-
+## threading notes
+- each thread has its own DS, CS, and PC
+- all threads share the same instruction space (both definitions and program)
+- IPC occurs by writing to special queue ports using "write" and "read"
 
