@@ -64,4 +64,12 @@ are the threads pre-emptive?
 - each thread has its own DS, CS, and PC
 - all threads share the same instruction space (both definitions and program)
 - IPC occurs by writing to special queue ports using "write" and "read"
+- how do threads signal each other? status flag for each thread. polled by other
+    threads with "3 tstat"
+- timesharing: permissive hand offs? single-word round-robin? execution time
+    limited?
+- each thread's word should be atomic, so a thread can be started or stopped at any
+    time
+- 
+
 

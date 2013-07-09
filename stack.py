@@ -6,6 +6,36 @@ import re
 import types
 import sys
 
+class StackThread:
+    def __init__( self, instList):
+        self.DS = []
+        self.CS = []
+        self.PC = 0
+        self.inst = instList
+        pass
+    
+    def pump( self):
+        # get the next instruction
+        # parse
+        # take action (which should affect PC appropriately)
+        # we could be at an end condition ('stop', or PC past len(instList))
+        #   if so, return false to indicate the thread should not be rescheduled
+        # otherwise return true to say the thread should be rescheduled
+
+class Scheduler:
+    def __init__( self, instList):
+        self.threads = []
+        self.threads.append( StackThread(instList)
+
+    def start(self)
+        while( len(threads) > 1):
+            for t in threads:
+                # t.pump() could be called multiple times if we want to swap 
+                #  contexts less than one per word per thread
+                if t.pump() == false:
+                    threads.remove(t)
+
+
 def doAdd( dstack, cstack, pc ):
     dstack.append( int(dstack.pop()) + int(dstack.pop()))
     return pc+1
