@@ -12,6 +12,7 @@
 + parse several files passed as command line arguments
 + write command which could write to file handles or digital port
 + source files with "#include whatever.st" but watch out; the order in which the get included can be non-obvious...
+
 ## TODO
 - fix dumb parsing bugs (negative number literals, words like '2dup')
 - anonymous words aka blocks (what use case does this make easier?)
