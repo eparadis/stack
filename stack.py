@@ -21,13 +21,14 @@ class StackThread:
         # we could be at an end condition ('stop', or PC past len(instList))
         #   if so, return false to indicate the thread should not be rescheduled
         # otherwise return true to say the thread should be rescheduled
+		pass
 
 class Scheduler:
     def __init__( self, instList):
         self.threads = []
-        self.threads.append( StackThread(instList)
+        self.threads.append( StackThread(instList))
 
-    def start(self)
+    def start(self):
         while( len(threads) > 1):
             for t in threads:
                 # t.pump() could be called multiple times if we want to swap 
